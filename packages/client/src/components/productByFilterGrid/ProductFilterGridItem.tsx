@@ -2,14 +2,26 @@ import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import HoverIconWithTooltip from "../masonryGrid/HoverIconWithTooltip";
+import MasonryItemProductPopover from "../masonryGrid/MasonryItemProductPopover";
 
 const ProductFilterGridItem = (props: any) => {
   const { imgSrc } = props;
   const [isHovered, setIsHovered] = useState(false);
+  const [showProductPopover, setShowProductPopover] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    
+  const togglePopover = () => {
+    setShowProductPopover(!showProductPopover);
+    setIsHovered(false);
+  }
+
+  const handleClick = (e: any, path: string) => {
+    e.stopPropagation();
+    if (path !== "popover") {
+      navigate(path);
+      return;
+    }
+    togglePopover();
   }
 
 
@@ -22,6 +34,7 @@ const ProductFilterGridItem = (props: any) => {
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={(e) => handleClick(e, "/product/1")}
       >
         <div 
           className="w-full flex flex-col items-end justify-center pr-2 pt-4 gap-2"
@@ -30,11 +43,12 @@ const ProductFilterGridItem = (props: any) => {
             {
               isHovered && (
                 <div className="hidden md:flex md:flex-col animate-fade-in animate-duration-300 z-50">
-                  <HoverIconWithTooltip Icon={EyeIcon} tooltipText="View" popover={true} position={{ right: '35px', top: '4px' }} />
+                  <HoverIconWithTooltip Icon={EyeIcon} tooltipText="View" popover={true} position={{ right: '35px', top: '4px' }} handleClick={handleClick} />
                 </div>
               )
             }
         </div>
+        <MasonryItemProductPopover showProductPopover={showProductPopover} setShowProductPopover={togglePopover} />
       </div>
     </div>
   );

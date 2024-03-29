@@ -15,6 +15,7 @@ import MobileMenu from "./MobileMenu";
 import { useAuth } from "../../context/userContext";
 import TopBar from "./TopBar";
 import { IHeaderProps } from "../../interfaces/Header/IHeaderProps";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -62,9 +63,15 @@ const Header = (props: IHeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAuthenticated, toggleAuth } = useAuth();
   const { pages } = props;
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     toggleAuth();
+  };
+
+  const handleNavigation = () => {
+    if (window.location.pathname === "/") return;
+    navigate("/");
   };
 
   return (
@@ -76,10 +83,10 @@ const Header = (props: IHeaderProps) => {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <button onClick={handleNavigation} className="-m-1.5 p-1.5">
+              <span className="sr-only">Les Samarretes</span>
               <Logo className="h-10 w-10" />
-            </a>
+            </button>
           </div>
           <div className="flex lg:hidden">
             <button

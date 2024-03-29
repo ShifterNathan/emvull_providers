@@ -5,9 +5,13 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import Logo from "../../common/Logo";
 import { IPopOverHeaderProps } from "../../interfaces/Header/IPopOverHeaderProps";
+import { useAuth } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const PopOverHeader = (props: IPopOverHeaderProps) => {
   const { show, togglePopover } = props;
+  const { toggleAuth } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,8 +19,12 @@ const PopOverHeader = (props: IPopOverHeaderProps) => {
     formState: { errors },
   } = useForm();
 
+  console.log(errors);
+  
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    toggleAuth()
+    navigate("/");
   };
 
   return (

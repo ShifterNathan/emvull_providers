@@ -7,9 +7,9 @@ import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
-import { useAuth } from "../../context/userContext";
-import CartSlideOver from "../cart/CartSlideOver";
+import CartSlideOver from "./slideOver/CartSlideOver";
 import SlideOver from "./slideOver/SlideOver";
+import { useNavigate } from "react-router-dom";
 
 const DesktopMenu = (props: IDesktopMenuProps) => {
   type SlideoverType = "cart" | "wishlist";
@@ -19,6 +19,13 @@ const DesktopMenu = (props: IDesktopMenuProps) => {
     wishlist: false,
   });
 
+  const navigate = useNavigate();
+
+  const handleNavigation = (path: string = "/") => () => {
+    if (window.location.pathname === path) return;
+    navigate(path);
+  };
+
   const { products, brands } = props;
 
   const toggleSlideover = (type: SlideoverType) => {
@@ -27,15 +34,15 @@ const DesktopMenu = (props: IDesktopMenuProps) => {
   return (
     <>
       <Popover.Group className="hidden lg:flex lg:gap-x-12 ml-4">
-        <a href="/" className="text-md font-semibold leading-6 text-gray-900 hover:text-primary-500 transition-colors duration-200">
+        <button onClick={handleNavigation("/")} className="text-md font-semibold leading-6 text-gray-900 hover:text-primary-500 transition-colors duration-200">
           Home
-        </a>
-        <a
-          href="/shop"
+        </button>
+        <button
+          onClick={handleNavigation("/shop")}
           className="text-md font-semibold leading-6 text-gray-900 hover:text-primary-500 transition-colors duration-200"
         >
           Shop
-        </a>
+        </button>
 
         <Popover>
           <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-900 hover:text-primary-500 transition-colors duration-200">

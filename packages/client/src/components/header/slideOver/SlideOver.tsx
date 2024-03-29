@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ICartSlideOverProps } from "../../../interfaces/Header/ICartSlideOverProps";
+import { useNavigate } from "react-router-dom";
 
 
 const SlideOver = (props: ICartSlideOverProps) => {
   const { show, toggleSlideover, products } = props;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (show) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  },[])
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -25,7 +35,7 @@ const SlideOver = (props: ICartSlideOverProps) => {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 flex max-w-full pl-24">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
